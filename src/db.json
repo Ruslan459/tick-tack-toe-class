@@ -1,0 +1,14 @@
+{
+  "todos": [
+    {
+      "id": "0",
+      "title": "Написать новый компонент",
+      "completed": false
+    },
+    {
+      "id": "1",
+      "title": "Hello everybody I`m Lara!",
+      "completed": true
+    }
+  ]
+}

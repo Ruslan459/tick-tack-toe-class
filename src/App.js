@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
+import { Todo, ControlPanel } from './components';
+import { readTodos, updateTodo, deleteTodo } from './api';
+import { removeTodo, setTodo } from './utils';
+import styles from './App.module.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+export const App = () => {
+	const [todos, setTodos] = useState([]);
 
-export default App;
+	const onTodoSave = (id, newTitle) => {
+		updateTodo({ id, title: newTitle }).then(() => {
+			setTodo({ id, title: newTitle, isEditing: false });
+		});
+	};
+
+	const onTodoEdit = (id) => {
+		setTodo({ id, isEditing: true });
+	};
+
+	const onTodoTitleChange = () => {};
+
+	const onTodoRemove = (id) => {
+		deleteTodo(id).then(removeTodo(todos, id));
+	};
+
+	useEffect(() => {
+		readTodos().then((todosData) => setTodos(todosData));
+	}, []);
+
+	return (
+		<div className={styles.App}>
+			<ControlPanel />
+			<div className={styles.todos}>
+				{todos.map(({ id, title, completed, isEditing = false }) => (
+					<Todo
+						key={id}
+						id={id}
+						title={title}
+						completed={completed}
+						onEdit={() => onTodoEdit(id)}
+						onTitileChange={(newTitile) => onTodoTitleChange(id, title)}
+						onSave={() => onTodoSave(id)}
+						onRemove={() => onTodoRemove(id)}
+					/>
+				))}
+			</div>
+		</div>
+	);
+};
