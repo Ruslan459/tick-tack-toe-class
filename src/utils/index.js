@@ -1,4 +1,3 @@
-export * from './find-todo';
-export * from './set-todo-in-todos';
-export * from './remove-todo-in-todos';
-export * from './add-todo-in-todos';
+export * from './check-win';
+export * from './check-empty-cell';
+export * from './create-empty-field';
