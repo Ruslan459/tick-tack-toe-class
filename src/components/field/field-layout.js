@@ -1,24 +1,26 @@
 import PropTypes from 'prop-types';
 import { PLAYER, PLAYER_SIGN } from '../../constants';
-import styles from './field.module.css';
+import { Component } from 'react';
 
-export const FieldLayout = ({ field, handleCellClick }) => (
-	<div className={styles.field}>
-		{field.map((cellPlayer, index) => (
-			<button
-				key={index}
-				className={styles.cell}
-				onClick={() => handleCellClick(index)}
-			>
-				{PLAYER_SIGN[cellPlayer]}
-			</button>
-		))}
-	</div>
-);
-
+export class FieldLayout extends Component {
+	render() {
+		const { field, handleCellClick } = this.props;
+		return (
+			<div className="grid grid-cols-3 my-5 border border-black">
+				{field.map((cellPlayer, index) => (
+					<button
+						key={index}
+						className="bg-gray-100 w-24 h-24 border border-black text-5xl"
+						onClick={() => handleCellClick(index)}
+					>
+						{PLAYER_SIGN[cellPlayer]}
+					</button>
+				))}
+			</div>
+		);
+	}
+}
 FieldLayout.propTypes = {
-	field: PropTypes.arrayOf(
-		PropTypes.oneOf([PLAYER.CROSS, PLAYER.NOUGHT, PLAYER.NOBODY]),
-	),
+	field: PropTypes.arrayOf(PropTypes.oneOf(Object.values(PLAYER))),
 	handleCellClick: PropTypes.func,
 };
